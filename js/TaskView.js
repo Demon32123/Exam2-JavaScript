@@ -1,16 +1,14 @@
-export class Task {
+export class TaskView {
   constructor(content) {
-    this.content = content;
-    this.checkMarkStatus = false;
-    this.element = this.createTask();
+    this.element = this.createTask(content);
   }
 
-  createTask() {
+  createTask(content) {
     const taskContainer = document.createElement("div");
     const taskText = document.createElement("p");
     const checkMarkContainer = document.createElement("button");
 
-    taskText.textContent = this.content;
+    taskText.textContent = content;
     taskText.className = "task__text";
     taskContainer.className = "task";
     checkMarkContainer.className = "task__check-mark-container";
