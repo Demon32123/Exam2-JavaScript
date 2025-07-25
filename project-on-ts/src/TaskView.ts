@@ -1,9 +1,11 @@
 export class TaskView {
-  constructor(content) {
-    this.element = this.createTask(content);
-  }
+    element: HTMLElement;
 
-  createTask(content) {
+    constructor(content: string){
+        this.element = this.createTask(content);
+    }
+
+    createTask(content: string) {
     const taskContainer = document.createElement("div");
     const taskText = document.createElement("p");
     const checkMarkContainer = document.createElement("button");
