@@ -78,16 +78,14 @@ body {
   border-radius: 10px;
 
   .task__text {
-    margin-left: 1rem;
+    margin: 1rem;
     word-break: break-all;
   }
 
   .task__check-mark-container {
     border-radius: 5px;
-    border: 2px solid white;
-    padding: 12px;
+    transform: scale(1.5);
     margin: 1rem;
-    max-height: fit-content;
 
     &:hover {
       cursor: pointer;

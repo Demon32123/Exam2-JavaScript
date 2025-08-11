@@ -6,12 +6,14 @@ export class TaskView {
   taskTemplate(task: TaskModel) {
     return `
         <div data-id="${task.id}" class="task">
-        <button         
+        <input     
+        type='checkbox'
+        id='check'    
                 ${task.checked ? "checked" : ""}
                 class="task__check-mark-container ${
                   task.checked ? "checked" : ""
                 }"
-            >
+            ></input>
             <p  class="task__text">${task.text}</p>
         </div>
     `;

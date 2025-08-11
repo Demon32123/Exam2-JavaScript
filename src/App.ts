@@ -12,20 +12,22 @@ export class App {
     const storage = new ApplicationStore();
     const container = document.getElementById("container") as HTMLElement;
     const view = new TaskView(container);
-    const controller = new TaskController(storage, view);
-    const tasks: TaskModel[] = [];
-    const button = document.getElementById("addButton");
+    const button = document.getElementById(
+      "addButton"
+    ) as HTMLButtonElement | null;
     const inputTask = document.getElementById(
       "textInput"
     ) as HTMLInputElement | null;
-
+    const tasks: TaskModel[] = [];
     if (button != null && inputTask != null) {
-      button.addEventListener("click", () => {
-        const textInput = inputTask.value;
-        const model = new TaskModel(textInput);
-        tasks.push(model);
-        controller.task = tasks;
-      });
+      const controller = new TaskController(
+        storage,
+        view,
+        container,
+        button,
+        inputTask,
+        tasks
+      );
     }
   }
 }
