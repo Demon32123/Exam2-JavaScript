@@ -2,6 +2,7 @@ import { ApplicationStore } from "./ApplicationStore.ts";
 import { TaskModel } from "./TaskModel.ts";
 import { TaskView } from "./TaskView.ts";
 import { TaskController } from "./TaskController.ts";
+import type { HtmlElements } from "./Interfaces";
 
 export class App {
   constructor() {
@@ -9,25 +10,14 @@ export class App {
   }
 
   initialize() {
+    const htmlElements: HtmlElements = {
+      container: document.getElementById("container"),
+      button: document.getElementById("addButton") as HTMLButtonElement,
+      inputTask: document.getElementById("textInput") as HTMLInputElement,
+    };
     const storage = new ApplicationStore();
-    const container = document.getElementById("container") as HTMLElement;
-    const view = new TaskView(container);
-    const button = document.getElementById(
-      "addButton"
-    ) as HTMLButtonElement | null;
-    const inputTask = document.getElementById(
-      "textInput"
-    ) as HTMLInputElement | null;
+    const view = new TaskView(htmlElements.container);
     const tasks: TaskModel[] = [];
-    if (button != null && inputTask != null) {
-      const controller = new TaskController(
-        storage,
-        view,
-        container,
-        button,
-        inputTask,
-        tasks
-      );
-    }
+    const controller = new TaskController(htmlElements, view, storage, tasks);
   }
 }

@@ -1,47 +1,55 @@
 import type { ApplicationStore } from "./ApplicationStore.ts";
 import { TaskModel } from "./TaskModel.ts";
 import { TaskView } from "./TaskView.ts";
+import type { HtmlElements } from "./Interfaces";
 
 export class TaskController {
+
+  get StorageTasks() {
+    return this.appState.tasks;
+  }
+
   set task(value: TaskModel[]) {
     this.appState.tasks = value;
     this.view.renderTasks(value);
   }
 
   constructor(
-    private appState: ApplicationStore,
+    private HtmlElements: HtmlElements,
     private view: TaskView,
-    private taskContainer: HTMLElement,
-    button: HTMLButtonElement,
-    inputTask: HTMLInputElement,
-    tasks: TaskModel[]
+    private appState: ApplicationStore,
+    private tasks: TaskModel[]
   ) {
-    this.onClickHandler(button, inputTask, tasks);
+    if (
+      this.HtmlElements.button != null &&
+      this.HtmlElements.inputTask != null
+    ) {
+      this.initializeHandlers(
+        this.HtmlElements.button,
+        this.HtmlElements.inputTask
+      );
+    }
   }
 
   onCheckStateUpdate(todoId: string) {
-    const index = this.appState.tasks.findIndex((todo) => todoId == todo.id);
-    const head = this.appState.tasks.slice(0, index);
-    const tail = this.appState.tasks.slice(index + 1);
+    const index = this.StorageTasks.findIndex((todo) => todoId == todo.id);
+    const head = this.StorageTasks.slice(0, index);
+    const tail = this.StorageTasks.slice(index + 1);
 
     this.task = [
       ...head,
       {
-        ...this.appState.tasks[index],
-        checked: !this.appState.tasks[index].checked,
+        ...this.StorageTasks[index],
+        checked: !this.StorageTasks[index].checked,
       },
       ...tail,
     ];
   }
 
-  onClickHandler(
-    button: HTMLButtonElement,
-    inputTask: HTMLInputElement,
-    tasks: TaskModel[]
-  ) {
+  initializeHandlers(button: HTMLButtonElement, inputTask: HTMLInputElement) {
     button.addEventListener("click", () => {
       if (inputTask.value != "") {
-        this.addNewTask(tasks, inputTask);
+        this.addNewTask(inputTask);
       } else {
         alert("Write a task!");
       }
@@ -51,27 +59,31 @@ export class TaskController {
       if (e.key === "Enter") {
         e.preventDefault();
         if (inputTask.value != "") {
-          this.addNewTask(tasks, inputTask);
+          this.addNewTask(inputTask);
         } else {
           alert("Write a task!");
         }
       }
     });
-
-    this.taskContainer.addEventListener("click", (event: PointerEvent) => {
-      const target = event.target as HTMLInputElement;
-      if (target.tagName == "INPUT") {
-        const parentElement = target.parentElement?.dataset.id as string;
-        this.onCheckStateUpdate(parentElement);
-      }
-    });
+    if (this.HtmlElements.container != null) {
+      this.HtmlElements.container.addEventListener(
+        "click",
+        (event: PointerEvent) => {
+          const target = event.target as HTMLInputElement;
+          if (target.tagName == "INPUT") {
+            const parentElement = target.parentElement?.dataset.id as string;
+            this.onCheckStateUpdate(parentElement);
+          }
+        }
+      );
+    }
   }
 
-  addNewTask(tasks: TaskModel[], inputTask: HTMLInputElement) {
+  addNewTask(inputTask: HTMLInputElement) {
     const textInput = inputTask.value;
     const model = new TaskModel(textInput);
-    tasks.push(model);
-    this.task = tasks;
+    this.tasks.push(model);
+    this.task = this.tasks;
     inputTask.value = "";
   }
 }
