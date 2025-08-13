@@ -6,10 +6,10 @@ export class TaskView {
 
   taskTemplate(task: TaskModel) {
     return `
-        <div data-id="${task.id}" class="task">
+        <div id="${task.id}" class="task">
         <input     
         type='checkbox'
-        id='check'    
+        id='checkbox__${task.id}'    
                 ${task.checked ? "checked" : ""}
                 class="task__check-mark-container ${
                   task.checked ? "checked" : ""

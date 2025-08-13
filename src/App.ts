@@ -11,13 +11,12 @@ export class App {
 
   initialize() {
     const htmlElements: HtmlElements = {
-      container: document.getElementById("container"),
-      button: document.getElementById("addButton") as HTMLButtonElement,
+      tasksContainer: document.getElementById("container"),
+      addButton: document.getElementById("addButton") as HTMLButtonElement,
       inputTask: document.getElementById("textInput") as HTMLInputElement,
     };
     const storage = new ApplicationStore();
-    const view = new TaskView(htmlElements.container);
-    const tasks: TaskModel[] = [];
-    const controller = new TaskController(htmlElements, view, storage, tasks);
+    const view = new TaskView(htmlElements.tasksContainer);
+    const controller = new TaskController(htmlElements, view, storage);
   }
 }

@@ -5,11 +5,11 @@ import type { HtmlElements } from "./Interfaces";
 
 export class TaskController {
 
-  get StorageTasks() {
+  get tasks() {
     return this.appState.tasks;
   }
 
-  set task(value: TaskModel[]) {
+  set tasks(value: TaskModel[]) {
     this.appState.tasks = value;
     this.view.renderTasks(value);
   }
@@ -18,29 +18,28 @@ export class TaskController {
     private HtmlElements: HtmlElements,
     private view: TaskView,
     private appState: ApplicationStore,
-    private tasks: TaskModel[]
   ) {
     if (
-      this.HtmlElements.button != null &&
+      this.HtmlElements.addButton != null &&
       this.HtmlElements.inputTask != null
     ) {
       this.initializeHandlers(
-        this.HtmlElements.button,
+        this.HtmlElements.addButton,
         this.HtmlElements.inputTask
       );
     }
   }
 
   onCheckStateUpdate(todoId: string) {
-    const index = this.StorageTasks.findIndex((todo) => todoId == todo.id);
-    const head = this.StorageTasks.slice(0, index);
-    const tail = this.StorageTasks.slice(index + 1);
+    const index = this.tasks.findIndex((todo) => todoId == todo.id);
+    const head = this.tasks.slice(0, index);
+    const tail = this.tasks.slice(index + 1);
 
-    this.task = [
+    this.tasks = [
       ...head,
       {
-        ...this.StorageTasks[index],
-        checked: !this.StorageTasks[index].checked,
+        ...this.tasks[index],
+        checked: !this.tasks[index].checked,
       },
       ...tail,
     ];
@@ -65,13 +64,13 @@ export class TaskController {
         }
       }
     });
-    if (this.HtmlElements.container != null) {
-      this.HtmlElements.container.addEventListener(
+    if (this.HtmlElements.tasksContainer != null) {
+      this.HtmlElements.tasksContainer.addEventListener(
         "click",
         (event: PointerEvent) => {
           const target = event.target as HTMLInputElement;
           if (target.tagName == "INPUT") {
-            const parentElement = target.parentElement?.dataset.id as string;
+            const parentElement = target.parentElement?.id as string;
             this.onCheckStateUpdate(parentElement);
           }
         }
@@ -80,10 +79,9 @@ export class TaskController {
   }
 
   addNewTask(inputTask: HTMLInputElement) {
-    const textInput = inputTask.value;
-    const model = new TaskModel(textInput);
-    this.tasks.push(model);
-    this.task = this.tasks;
+    const {value} = inputTask;
+    const model = new TaskModel(value);
+    this.tasks = [...this.tasks, model];
     inputTask.value = "";
   }
 }

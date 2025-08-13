@@ -1,5 +1,5 @@
 export interface HtmlElements {
-  container: HTMLElement | null;
-  button: HTMLButtonElement | null;
+  tasksContainer: HTMLElement | null;
+  addButton: HTMLButtonElement | null;
   inputTask: HTMLInputElement | null;
 }
