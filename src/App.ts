@@ -1,5 +1,4 @@
 import { ApplicationStore } from "./ApplicationStore.ts";
-import { TaskModel } from "./TaskModel.ts";
 import { TaskView } from "./TaskView.ts";
 import { TaskController } from "./TaskController.ts";
 import type { HtmlElements } from "./Interfaces";
@@ -16,7 +15,19 @@ export class App {
       inputTask: document.getElementById("textInput") as HTMLInputElement,
     };
     const storage = new ApplicationStore();
-    const view = new TaskView(htmlElements.tasksContainer);
-    const controller = new TaskController(htmlElements, view, storage);
+    const view = new TaskView(htmlElements);
+    if (
+      htmlElements.addButton != null &&
+      htmlElements.tasksContainer != null &&
+      htmlElements.inputTask != null
+    ) {
+      const controller = new TaskController(
+        htmlElements.tasksContainer,
+        htmlElements.addButton,
+        htmlElements.inputTask,
+        view,
+        storage
+      );
+    }
   }
 }

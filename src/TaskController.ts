@@ -1,10 +1,8 @@
 import type { ApplicationStore } from "./ApplicationStore.ts";
 import { TaskModel } from "./TaskModel.ts";
 import { TaskView } from "./TaskView.ts";
-import type { HtmlElements } from "./Interfaces";
 
 export class TaskController {
-
   get tasks() {
     return this.appState.tasks;
   }
@@ -15,19 +13,13 @@ export class TaskController {
   }
 
   constructor(
-    private HtmlElements: HtmlElements,
+    private tasksContainer: HTMLElement,
+    private addButton: HTMLButtonElement,
+    private inputTask: HTMLInputElement,
     private view: TaskView,
-    private appState: ApplicationStore,
+    private appState: ApplicationStore
   ) {
-    if (
-      this.HtmlElements.addButton != null &&
-      this.HtmlElements.inputTask != null
-    ) {
-      this.initializeHandlers(
-        this.HtmlElements.addButton,
-        this.HtmlElements.inputTask
-      );
-    }
+    this.initializeHandlers(this.addButton, this.inputTask);
   }
 
   onCheckStateUpdate(todoId: string) {
@@ -64,22 +56,19 @@ export class TaskController {
         }
       }
     });
-    if (this.HtmlElements.tasksContainer != null) {
-      this.HtmlElements.tasksContainer.addEventListener(
-        "click",
-        (event: PointerEvent) => {
-          const target = event.target as HTMLInputElement;
-          if (target.tagName == "INPUT") {
-            const parentElement = target.parentElement?.id as string;
-            this.onCheckStateUpdate(parentElement);
-          }
+    if (this.tasksContainer != null) {
+      this.tasksContainer.addEventListener("click", (event: PointerEvent) => {
+        const target = event.target as HTMLInputElement;
+        if (target.tagName == "INPUT") {
+          const parentElement = target.parentElement?.id as string;
+          this.onCheckStateUpdate(parentElement);
         }
-      );
+      });
     }
   }
 
   addNewTask(inputTask: HTMLInputElement) {
-    const {value} = inputTask;
+    const { value } = inputTask;
     const model = new TaskModel(value);
     this.tasks = [...this.tasks, model];
     inputTask.value = "";
