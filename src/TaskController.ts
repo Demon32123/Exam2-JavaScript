@@ -7,6 +7,10 @@ export class TaskController {
     return this.appState.tasks;
   }
 
+  get tasksCheckboxes(): NodeListOf<HTMLInputElement> {
+    return document.querySelectorAll(".task__check-mark-container") as NodeListOf<HTMLInputElement>;
+  }
+
   set tasks(value: TaskModel[]) {
     this.appState.tasks = value;
     this.view.renderTasks(value);
@@ -16,10 +20,11 @@ export class TaskController {
     private tasksContainer: HTMLElement,
     private addButton: HTMLButtonElement,
     private inputTask: HTMLInputElement,
+    private masterCheckbox: HTMLInputElement,
     private view: TaskView,
-    private appState: ApplicationStore
+    private appState: ApplicationStore,
   ) {
-    this.initializeHandlers(this.addButton, this.inputTask);
+    this.initializeHandlers();
   }
 
   onCheckStateUpdate(todoId: string) {
@@ -37,20 +42,20 @@ export class TaskController {
     ];
   }
 
-  initializeHandlers(button: HTMLButtonElement, inputTask: HTMLInputElement) {
-    button.addEventListener("click", () => {
-      if (inputTask.value != "") {
-        this.addNewTask(inputTask);
+  initializeHandlers() {
+    this.addButton.addEventListener("click", () => {
+      if (this.inputTask.value != "") {
+        this.addNewTask(this.inputTask);
       } else {
         alert("Write a task!");
       }
     });
 
-    inputTask.addEventListener("keydown", (e) => {
+    this.inputTask.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (inputTask.value != "") {
-          this.addNewTask(inputTask);
+        if (this.inputTask.value != "") {
+          this.addNewTask(this.inputTask);
         } else {
           alert("Write a task!");
         }
@@ -65,6 +70,17 @@ export class TaskController {
         }
       });
     }
+
+    this.masterCheckbox?.addEventListener("change", () => {
+      const slaveCheckboxes = this.tasksCheckboxes;
+      if (slaveCheckboxes != null) {
+        slaveCheckboxes.forEach((checkbox) => {
+          const parentElement = checkbox.parentElement?.id as string;
+          this.onCheckStateUpdate(parentElement)
+        });
+      }
+    });
+
   }
 
   addNewTask(inputTask: HTMLInputElement) {
