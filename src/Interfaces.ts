@@ -1,5 +1,5 @@
 export interface HtmlElements {
-  tasksContainer: HTMLElement | null;
+  tasksContainer: HTMLDivElement | null;
   addButton: HTMLButtonElement | null;
   inputTask: HTMLInputElement | null;
   masterCheckbox: HTMLInputElement | null;

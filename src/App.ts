@@ -1,7 +1,8 @@
 import { ApplicationStore } from "./ApplicationStore.ts";
 import { TaskView } from "./TaskView.ts";
 import { TaskController } from "./TaskController.ts";
-import type { HtmlElements } from "./Interfaces";
+import { MasterCheckboxView } from "./MasterCheckboxView.ts";
+import { MasterCheckboxController } from "./MasterCheckboxController.ts";
 
 export class App {
   constructor() {
@@ -9,28 +10,26 @@ export class App {
   }
 
   initialize() {
-    const htmlElements: HtmlElements = {
-      tasksContainer: document.getElementById("container"),
+    const htmlElements = {
+      tasksContainer: document.getElementById("container") as HTMLDivElement,
       addButton: document.getElementById("addButton") as HTMLButtonElement,
       inputTask: document.getElementById("textInput") as HTMLInputElement,
-      masterCheckbox: document.getElementById("all") as HTMLInputElement
+      masterCheckbox: document.getElementById("all") as HTMLInputElement,
     };
     const storage = new ApplicationStore();
-    const view = new TaskView(htmlElements);
-    if (
-      htmlElements.addButton != null &&
-      htmlElements.tasksContainer != null &&
-      htmlElements.inputTask != null &&
-      htmlElements.masterCheckbox != null
-    ) {
-      const controller = new TaskController(
-        htmlElements.tasksContainer,
-        htmlElements.addButton,
-        htmlElements.inputTask,
-         htmlElements.masterCheckbox,
-        view,
-        storage
-      );
-    }
+    const taskView = new TaskView(htmlElements);
+    const masterCheckboxView = new MasterCheckboxView(htmlElements);
+    const masterCheckboxController = new MasterCheckboxController(
+      htmlElements,
+      storage,
+      taskView,
+      masterCheckboxView
+    );
+    const taskController = new TaskController(
+      htmlElements,
+      taskView,
+      storage,
+      masterCheckboxView
+    );
   }
 }
