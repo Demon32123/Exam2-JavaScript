@@ -1,25 +1,24 @@
-import type { ApplicationStore } from "../Store/ApplicationStore";
+import { ApplicationStore } from "../Store/ApplicationStore";
 import type { HtmlElements } from "../Interfaces/Interfaces";
 
 export class MasterCheckboxView {
   constructor(
     private htmlElements: HtmlElements,
-    private storage: ApplicationStore
+    public store: ApplicationStore = new ApplicationStore()
   ) {}
 
-  masterCheckboxTemplate(): string{
+  masterCheckboxTemplate(): string {
     return `<input     
         type='checkbox'
         id="all" 
-                ${this.storage.masterCheckboxStatus ? "checked" : ""}
-                class="all ${
-                  this.storage.masterCheckboxStatus ? "checked" : ""
-                }"
+                ${this.store.masterCheckboxStatus ? "checked" : ""}
+                class="all ${this.store.masterCheckboxStatus ? "checked" : ""}"
             ></input>`;
   }
   renderMasterCheckbox() {
     if (this.htmlElements.toolsContainer != null) {
-      this.htmlElements.toolsContainer.innerHTML = this.masterCheckboxTemplate()
+      this.htmlElements.toolsContainer.innerHTML =
+        this.masterCheckboxTemplate();
     }
   }
 }

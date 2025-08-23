@@ -1,35 +1,24 @@
-import { ApplicationStore } from "../Store/ApplicationStore.ts";
-import { TaskView } from "../Tasks/TaskView.ts";
-import { TaskController } from "../Tasks/TaskController.ts";
-import { MasterCheckboxView } from "../MasterCheckbox/MasterCheckboxView.ts";
-import { MasterCheckboxController } from "../MasterCheckbox/MasterCheckboxController.ts";
+import { AppView } from "./AppView.ts";
+import { RenderEvent } from "./RenderEvent.ts";
 
 export class App {
+  _AppView: AppView;
+  _RenderEvent: RenderEvent = new RenderEvent();
+
   constructor() {
-    this.initialize();
+    if (this.appContainer) {
+      this._AppView = new AppView(this.appContainer);
+      this._RenderEvent.subscribe(() => {
+        this._AppView.render();
+      });
+
+      this._RenderEvent.next("hello");
+    } else {
+      throw "no app container present in template";
+    }
   }
 
-  initialize() {
-    const htmlElements = {
-      tasksContainer: document.getElementById("container") as HTMLDivElement,
-      toolsContainer: document.getElementById("tools") as HTMLDivElement,
-      addButton: document.getElementById("addButton") as HTMLButtonElement,
-      inputTask: document.getElementById("textInput") as HTMLInputElement,
-      masterCheckbox: document.getElementById("all") as HTMLInputElement,
-    };
-    const storage = new ApplicationStore();
-    const taskView = new TaskView(htmlElements);
-    const masterCheckboxView = new MasterCheckboxView(htmlElements, storage);
-    const masterCheckboxController = new MasterCheckboxController(
-      htmlElements,
-      storage,
-      taskView,
-      masterCheckboxView
-    );
-    const taskController = new TaskController(
-      htmlElements,
-      taskView,
-      storage
-    );
+  get appContainer(): HTMLDivElement | null {
+    return document.getElementById("app") as HTMLDivElement | null;
   }
 }

@@ -1,10 +1,9 @@
 import type { TaskModel } from "./TaskModel";
-import type { HtmlElements } from "../Interfaces/Interfaces";
 
 export class TaskView {
-  constructor(private HtmlElemnets: HtmlElements) {}
+  constructor() {}
 
-  taskTemplate(task: TaskModel) {
+  static taskTemplate(task: TaskModel) {
     return `
         <div id="${task.id}" class="task">
         <input     
@@ -20,12 +19,12 @@ export class TaskView {
     `;
   }
 
-  renderTasks(task: TaskModel[]) {
-    if (this.HtmlElemnets.tasksContainer != null) {
-      this.HtmlElemnets.tasksContainer.innerHTML = task.reduce((acc, task) => {
-        acc += this.taskTemplate(task);
-        return acc;
-      }, "");
-    }
+  static renderTasks(tasks: TaskModel[] | null) {
+    if (!tasks) return "";
+
+    return tasks.reduce((acc, task) => {
+      acc += this.taskTemplate(task);
+      return acc;
+    }, "");
   }
 }

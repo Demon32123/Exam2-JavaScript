@@ -5,3 +5,9 @@ export interface HtmlElements {
   inputTask: HTMLInputElement | null;
   masterCheckbox: HTMLInputElement | null;
 }
+
+export type StoreObject<T> = {
+  _value: T | undefined;
+  get value(): T | null;
+  set value(value: T);
+};
