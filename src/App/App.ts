@@ -1,11 +1,14 @@
 import { AppView } from "./AppView.ts";
 import { RenderEvent } from "./RenderEvent.ts";
+import { TaskCreatorComponent } from "../TaskCreator/TaskCreatorComponent.ts";
 
 export class App {
   _AppView: AppView;
   _RenderEvent: RenderEvent = new RenderEvent();
 
   constructor() {
+    this.defineCustomElements();
+
     if (this.appContainer) {
       this._AppView = new AppView(this.appContainer);
       this._RenderEvent.subscribe(() => {
@@ -20,5 +23,9 @@ export class App {
 
   get appContainer(): HTMLDivElement | null {
     return document.getElementById("app") as HTMLDivElement | null;
+  }
+
+  defineCustomElements() {
+    customElements.define("app-task-creator", TaskCreatorComponent);
   }
 }

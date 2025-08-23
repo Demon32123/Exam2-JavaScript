@@ -17,4 +17,4 @@ export class ApplicationStore {
   masterCheckboxStatus: boolean = false;
 }
 
-export const _ApplicationStore = new ApplicationStore();
+export const AppStore = new ApplicationStore();
