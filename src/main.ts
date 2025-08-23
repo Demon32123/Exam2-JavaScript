@@ -1,3 +1,3 @@
-import { App } from "./App.ts";
+import { App } from "./App/App.ts";
 
 const app = new App();

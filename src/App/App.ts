@@ -1,8 +1,8 @@
-import { ApplicationStore } from "./ApplicationStore.ts";
-import { TaskView } from "./Tasks/TaskView.ts";
-import { TaskController } from "./Tasks/TaskController.ts";
-import { MasterCheckboxView } from "./MasterCheckbox/MasterCheckboxView.ts";
-import { MasterCheckboxController } from "./MasterCheckbox/MasterCheckboxController.ts";
+import { ApplicationStore } from "../Store/ApplicationStore.ts";
+import { TaskView } from "../Tasks/TaskView.ts";
+import { TaskController } from "../Tasks/TaskController.ts";
+import { MasterCheckboxView } from "../MasterCheckbox/MasterCheckboxView.ts";
+import { MasterCheckboxController } from "../MasterCheckbox/MasterCheckboxController.ts";
 
 export class App {
   constructor() {

@@ -1,5 +1,5 @@
-import type { ApplicationStore } from "../ApplicationStore";
-import type { HtmlElements } from "../Interfaces";
+import type { ApplicationStore } from "../Store/ApplicationStore";
+import type { HtmlElements } from "../Interfaces/Interfaces";
 
 export class MasterCheckboxView {
   constructor(

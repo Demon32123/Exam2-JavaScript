@@ -1,5 +1,5 @@
-import type { ApplicationStore } from "../ApplicationStore.ts";
-import type { HtmlElements } from "../Interfaces.ts";
+import type { ApplicationStore } from "../Store/ApplicationStore.ts";
+import type { HtmlElements } from "../Interfaces/Interfaces.ts";
 import { TaskModel } from "./TaskModel.ts";
 import { TaskView } from "./TaskView.ts";
 

@@ -1,5 +1,5 @@
-import type { ApplicationStore } from "../ApplicationStore";
-import type { HtmlElements } from "../Interfaces";
+import type { ApplicationStore } from "../Store/ApplicationStore";
+import type { HtmlElements } from "../Interfaces/Interfaces";
 import type { MasterCheckboxView } from "./MasterCheckboxView";
 import type { TaskModel } from "../Tasks/TaskModel";
 import type { TaskView } from "../Tasks/TaskView";

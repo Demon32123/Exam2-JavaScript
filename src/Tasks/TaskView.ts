@@ -1,5 +1,5 @@
 import type { TaskModel } from "./TaskModel";
-import type { HtmlElements } from "../Interfaces";
+import type { HtmlElements } from "../Interfaces/Interfaces";
 
 export class TaskView {
   constructor(private HtmlElemnets: HtmlElements) {}
