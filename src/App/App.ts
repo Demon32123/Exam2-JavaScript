@@ -1,6 +1,7 @@
 import { AppView } from "./AppView.ts";
 import { RenderEvent } from "./RenderEvent.ts";
 import { TaskCreatorComponent } from "../TaskCreator/TaskCreatorComponent.ts";
+import { TasksComponent } from "../Tasks/TasksComponent.ts";
 
 export class App {
   _AppView: AppView;
@@ -27,5 +28,6 @@ export class App {
 
   defineCustomElements() {
     customElements.define("app-task-creator", TaskCreatorComponent);
+    customElements.define("app-tasks", TasksComponent);
   }
 }

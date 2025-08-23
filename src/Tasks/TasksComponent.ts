@@ -1,6 +1,6 @@
 import type { TaskModel } from "./TaskModel";
 
-class TasksComponent extends HTMLElement {
+export class TasksComponent extends HTMLElement {
   tasks: TaskModel[] = [];
 
   constructor() {
@@ -11,17 +11,17 @@ class TasksComponent extends HTMLElement {
     this.render();
   }
 
-  disconnectedCallback() {}
-
   static get observedAttributes() {
-    return ["tasks"];
+    return ["data-tasks"];
   }
 
   attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+    if (name === "data-tasks") {
+      this.tasks = JSON.parse(newValue);
+    }
+
     this.render();
   }
-
-  adoptedCallback() {}
 
   render() {
     this.innerHTML = this.renderTasks(this.tasks);
@@ -52,5 +52,3 @@ class TasksComponent extends HTMLElement {
     }, "");
   }
 }
-
-customElements.define("app-tasks", TasksComponent);
